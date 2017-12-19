@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+
+    <!--<property name="logback.log_directory" value="target/logs" />-->
+    <property name="log_directory_methods" value="${logback.log_directory}/separate" />
+
+
+    <timestamp key="byDay" datePattern="yyyyMMdd'T'HHmmss"/>
+    <timestamp key="bySecond" datePattern="yyyyMMddHHmmss" />
+
+
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!--<level>INFO</level>-->
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file> ${logback.log_directory}/main.log </file>
+        <append>true</append>
+        <encoder>
+            <pattern>
+                <!--TODO - make it nice.. with spaces...-->
+                <!--%-4relative [%thread] %-5level %logger{35} - %msg%n-->
+                <!--%d{yyyy-MM-dd HH:mm:ss.SSS} %mdc [%thread] %level %logger{35} - %msg%n-->
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %level %mdc [%thread]  %logger{35} - %msg%n
+                <!--%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } -&#45;&#45; [%15.15t{14}] %-40.40logger{39} : %m%n-->
+            </pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>${logback.log_directory}/${testname}.%i.main.zip</FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>10</MaxIndex>
+        </rollingPolicy>
+
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>50MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+
+
+    <appender name="FILE-THREAD" class="ch.qos.logback.classic.sift.SiftingAppender">
+
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!--<level>INFO</level>-->
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+
+        <!-- This is MDC value -->
+        <!-- We will assign a value to 'logFileName' via Java code -->
+        <discriminator>
+            <key>testname</key>
+            <defaultValue>other</defaultValue>
+        </discriminator>
+
+        <sift>
+            <!-- A standard RollingFileAppender, the log file is based on 'testname' at runtime  -->
+            <appender name="FILE-${testname}" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${log_directory_methods}/${testname}.log</file>
+
+                <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                    <Pattern>
+                        %d{yyyy-MM-dd HH:mm:ss.SSS} %mdc [%thread] %level %logger{35} - %msg%n
+                    </Pattern>
+                </encoder>
+
+                <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+                    <FileNamePattern>${log_directory_methods}/${testname}.%i.log.zip
+                    </FileNamePattern>
+                    <MinIndex>1</MinIndex>
+                    <MaxIndex>10</MaxIndex>
+                </rollingPolicy>
+
+                <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+                    <MaxFileSize>10MB</MaxFileSize>
+                </triggeringPolicy>
+
+            </appender>
+
+        </sift>
+    </appender>
+
+
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="FILE-THREAD" />
+    </root>
+
+</configuration>

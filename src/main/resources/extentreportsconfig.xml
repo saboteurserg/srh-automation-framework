@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extentreports>
+    <configuration>
+        <!-- report theme -->
+        <!-- standard, dark -->
+        <theme>standard</theme>
+
+        <!-- document encoding -->
+        <!-- defaults to UTF-8 -->
+        <encoding>UTF-8</encoding>
+
+        <!-- protocol for script and stylesheets -->
+        <!-- defaults to https -->
+        <protocol>https</protocol>
+
+        <!-- title of the document -->
+        <documentTitle>ExtentReports</documentTitle>
+
+        <!-- report name - displayed at top-nav -->
+        <reportName>Automation Report</reportName>
+
+        <!-- report headline - displayed at top-nav, after reportHeadline -->
+        <reportHeadline></reportHeadline>
+
+        <!-- global date format override -->
+        <!-- defaults to yyyy-MM-dd -->
+        <dateFormat>yyyy-MM-dd</dateFormat>
+
+        <!-- global time format override -->
+        <!-- defaults to HH:mm:ss -->
+        <timeFormat>HH:mm:ss.SSS</timeFormat>
+
+        <!-- custom javascript -->
+        <scripts>
+
+            var showedTrace = true;
+            var brightTrace = true;
+            var showBeforeAfter = true;
+
+
+            <![CDATA[
+                $(document).ready(function() {
+
+                    //hide all traces on load and dimm them
+                    showHideTraceRecords();
+                    dimmBrightenTraceRecords();
+                    showHideBeforeAfterMethods();
+
+                    jQuery(".test-attributes").append("<div><a href='#' class='show_hide_trace_records' onclick='showHideTraceRecords(this);'>SHOW TRACE RECORDS</a></div>");
+                    jQuery(".test-attributes").append("<div><a href='#' class='dim_brighten_trace_records' onclick='dimmBrightenTraceRecords(this);'>BRIGHTEN TRACE RECORDS</a></div>");
+                    jQuery(".test-attributes").append("<div><a href='#' class='show_hide_before_after_methods' onclick='showHideBeforeAfterMethods(this);'>SHOW Before, After methods</a></div>");
+
+                    //change bg color of after \ before methods
+                    jQuery(".before_after_invocation").closest("li").css("background-color","linen");
+
+                    //append build name in main header
+                    $(".report-name").text($(".report-name").text() + " (BUILD: " + $("#build_number_info").text() + ")")
+
+                });
+
+
+            function showstacktrace(id){
+                text = jQuery("#test-details-wrapper #link_"+id).text();
+
+                if(text == "show stacktrace"){
+                    jQuery("#test-details-wrapper #trace_"+id).show();
+                    jQuery("#test-details-wrapper #link_"+id).text("hide stacktrace");
+                }else{
+                    jQuery("#test-details-wrapper #trace_"+id).hide();
+                    jQuery("#test-details-wrapper #link_"+id).text("show stacktrace");
+                }
+            }
+
+
+            function showHideTraceRecords(current){
+              if(showedTrace){
+                jQuery(".table-results tbody .label.trace").closest("tr").hide();
+                jQuery(".show_hide_trace_records").text("SHOW TRACE RECORDS");
+                showedTrace = false;
+              }else{
+                jQuery(".table-results tbody .label.trace").closest("tr").show();
+                jQuery(".show_hide_trace_records").text("HIDE TRACE RECORDS");
+                showedTrace = true;
+              }
+               window.event.stopPropagation();
+            }
+
+            function dimmBrightenTraceRecords(current){
+              if(brightTrace){
+                jQuery(".table-results tbody .label.trace").closest("tr").css("opacity", "0.45")
+                jQuery(".dim_brighten_trace_records").text("BRIGHTEN TRACE RECORDS");
+                brightTrace = false;
+              }else{
+                jQuery(".table-results tbody .label.trace").closest("tr").css("opacity", "1")
+                jQuery(".dim_brighten_trace_records").text("DIMM TRACE RECORDS");
+                brightTrace = true;
+              }
+              window.event.stopPropagation();
+            }
+
+
+            function showHideBeforeAfterMethods(current){
+              if(showBeforeAfter){
+                jQuery(".before_after_invocation").closest("li").hide();
+                jQuery(".show_hide_before_after_methods").text("SHOW Before, After methods");
+                showBeforeAfter = false;
+              }else{
+                jQuery(".before_after_invocation").closest("li").show();
+                jQuery(".show_hide_before_after_methods").text("HIDE Before, After methods");
+                showBeforeAfter = true;
+              }
+               window.event.stopPropagation();
+            }
+
+
+            ]]>
+        </scripts>
+
+        <!-- custom styles -->
+        <styles>
+            <![CDATA[
+                h5{
+                    font-size: 18px;
+                    font-weight: bold;
+                }
+
+                .srh-stacktrace{
+                    display:none;
+                }
+
+                .label.debug{
+                    background: lightgrey;
+                    border-color: grey;
+                    margin-right: 10px;
+                }
+
+                .label.trace{
+                    background: lightblue;
+                    border-color: grey;
+                    margin-right: 10px;
+                }
+
+                .table-results .timestamp{
+                    width: 95px !important;
+                }
+
+                .cat-tests td:first-child{
+                    width: 165px !important;
+                }
+
+                .test-node-name{
+                    font-size: x-large;
+                }
+
+                .categories{
+                    margin-bottom:10px;
+                }
+
+            ]]>
+        </styles>
+    </configuration>
+</extentreports>

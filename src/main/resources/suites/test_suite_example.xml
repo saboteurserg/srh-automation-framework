@@ -1,0 +1,71 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite1" verbose="1" parallel="tests" thread-count="10" >
+
+    <parameter name="browser" value="chrome"/>
+    <!--<parameter name="remote"  value="http://localhost:4444/wd/hub"/>-->
+
+    <!--Possible values: all, debug, info, warn, error, off -->
+    <parameter name="reportLogLevel"  value="debug"/>
+    <parameter name="fileLogLevel"  value="info"/>
+    <parameter name="trace" value="true"/>
+    <parameter name="variableNames" value="true"/>
+    <parameter name="traceSelectors" value="true"/>
+    <parameter name="screenshotOnFail" value="true"/>
+    <parameter name="screenshotOnPass" value="true"/>
+    <parameter name="nestedMethodTests" value="true"/>
+    <parameter name="logDirectory" value="target/logs"/>
+
+    <parameter name="globalVariables"  value=
+            "webdriver.chrome.driver=c:/work/selenium/webdrivers/chromedriver-2.34.exe;
+            webdriver.gecko.driver=c:/work/selenium/webdrivers/geckodriver-0.11.1.exe"
+    />
+
+    <parameter name="customParameter"  value="parameterValue"/>
+    <parameter name="customSearch"  value="Lana Del Rey"/>
+
+    <listeners>
+        <listener class-name="com.krynytskyyserhiy.automation.framework.testng.SRHTestngListener" />
+        <listener class-name="com.codeborne.selenide.testng.BrowserPerClass" />
+        <!--<listener class-name="com.codeborne.selenide.testng.BrowserPerTest" />-->
+    </listeners>
+
+
+    <!--<test name="Test1 from suite">-->
+        <!--<classes>-->
+            <!--<class name="samples.Test4" />-->
+        <!--</classes>-->
+    <!--</test>-->
+
+    <test name="Test111">
+        <!--<groups>-->
+            <!--<run>-->
+                <!--<include name="g1" />-->
+            <!--</run>-->
+        <!--</groups>-->
+
+        <classes>
+            <class name="samples.Test7" />
+        </classes>
+    </test>
+
+    <!--<test name="Test1113">-->
+        <!--<groups>-->
+            <!--<run>-->
+                <!--<include name="g2" />-->
+            <!--</run>-->
+        <!--</groups>-->
+
+        <!--<classes>-->
+            <!--<class name="samples.Test4" />-->
+        <!--</classes>-->
+    <!--</test>-->
+
+
+    <!--<test name="Test2 from suite">-->
+        <!--<classes>-->
+            <!--<class name="samples.Test4" />-->
+        <!--</classes>-->
+    <!--</test>-->
+
+</suite>
