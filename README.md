@@ -14,7 +14,7 @@ This framework combines following libraries and frameworks in one. In order to e
 * (for reports used ExtentRepotrs - http://extentreports.relevantcodes.com/ )
 * (for logging used Logback+SLF4J - http://logback.qos.ch/ - http://www.slf4j.org/ )
 
-## [PLEASE ALSO READ WIKI !!!](wiki)
+## [PLEASE ALSO READ WIKI !!!](https://github.com/skrynytskyy/srh-automation-framework/wiki)
 
 ## Quick Start Guide
 
